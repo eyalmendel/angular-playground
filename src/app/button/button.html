@@ -1,0 +1,9 @@
+<button
+    [style.backgroundColor]="color()"
+    [style.color]="textColor()"
+    [style.width.px]="width()"
+    [style.height.px]="height()"
+    [style.borderRadius]="borderRadius()"
+    (click)="click">
+    {{ text() ?? "" }}
+</button>

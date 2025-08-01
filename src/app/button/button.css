@@ -1,0 +1,10 @@
+:host {
+    --default-border-radius: 4px;
+    --primary-color: #254dc4;
+    --secondary-color: #ffffff;
+}
+
+button {
+    cursor: pointer;
+    text-align: center;
+}

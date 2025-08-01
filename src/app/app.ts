@@ -1,12 +1,16 @@
-import { Component, signal } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { Component } from '@angular/core';
+import { Button } from './button/button';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet],
+  imports: [Button],
   templateUrl: './app.html',
   styleUrl: './app.css'
 })
 export class App {
-  protected readonly title = signal('angular-playground');
+  
+    onClick = () => {
+        console.log("clicked")
+    }
+
 }
