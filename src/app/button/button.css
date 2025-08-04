@@ -7,4 +7,15 @@
 button {
     cursor: pointer;
     text-align: center;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+button:hover {
+    opacity: .7;
+}
+
+button:active {
+    opacity: .9;
 }
