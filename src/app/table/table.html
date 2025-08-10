@@ -1,0 +1,11 @@
+<cdk-table [dataSource]="data">
+  <ng-container *ngFor="let col of columns" [cdkColumnDef]="col.field">
+    <cdk-header-cell *cdkHeaderCellDef>{{ col.label }}</cdk-header-cell>
+    <cdk-cell *cdkCellDef="let row">
+      <ng-template appTableCellHost></ng-template>
+    </cdk-cell>
+  </ng-container>
+
+  <cdk-header-row *cdkHeaderRowDef="displayedColumns()"></cdk-header-row>
+  <cdk-row *cdkRowDef="let row; columns: displayedColumns()"></cdk-row>
+</cdk-table>
