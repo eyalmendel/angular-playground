@@ -1,12 +1,43 @@
-import { Directive, ViewContainerRef } from "@angular/core";
+import { Directive, input, OnInit, ViewContainerRef } from "@angular/core";
+import { TableColumn } from "../interfaces/table-column.interface";
+import { TableColumnRendererRegistryService } from "../services/table-column-renderer-registry.service";
 
 @Directive({
     selector: '[appTableCellHost]'
 })
-export class TableCellHostDirective {
+export class TableCellHostDirective implements OnInit {
 
-    constructor(public viewContainerRef: ViewContainerRef) {
+    column = input<TableColumn | null>(null);
 
+    row = input<Object | null>(null);
+
+    constructor(
+        private _registry: TableColumnRendererRegistryService,
+        private _viewContainerRef: ViewContainerRef,
+    ) {
+    
     }
+    
+      ngOnInit(): void {
+        this.renderCells();
+      }
+    
+      private renderCells(): void {
+        if (this.row() == null || this.column() == null) {
+          return;
+        }
+    
+        this._viewContainerRef.clear();
+
+        const rendererType = this._registry.getRenderer(this.column()!.type);
+  
+        if (!rendererType) {
+          return;
+        }
+  
+        const rendererRef = this._viewContainerRef.createComponent(rendererType);
+        const fieldValue = this.row()![this.column()!.field as keyof Object];
+        rendererRef.instance.render(fieldValue, this.row()!, this.column()!);
+      }
 
 }

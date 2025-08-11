@@ -1,11 +1,28 @@
-<table cdk-table [dataSource]="data()">
-  <ng-container *ngFor="let column of columns()" [cdkColumnDef]="column.field">
-    <th cdk-header-cell *cdkHeaderCellDef>{{ column.label }}</th>
-    <td cdk-cell *cdkCellDef="let row">
-      <ng-template appTableCellHost></ng-template>
-    </td>
-  </ng-container>
+<table>
+  <thead>
+    <tr>
+        @for (column of columns(); track column.field) {
+            <th>{{ column.label }}</th>
+        }
+    </tr>
+  </thead>
+  <tbody>
+    @for (row of data(); track $index) {
+        <tr>
+            @for (column of columns(); track column.field) {
+                <td>
+                    <ng-container
+                        appTableCellHost
+                        [row]="row"
+                        [column]="column">
+                    </ng-container>
+                </td>
+            }
+        </tr>
+    }
 
-  <tr cdk-header-row *cdkHeaderRowDef="displayedColumns()"></tr>
-  <tr cdk-row *cdkRowDef="let row; columns: displayedColumns()" appTableRowHost [row]="row" [columns]="columns()"></tr>
+    @empty {
+        <span>No data to display</span>
+    }
+  </tbody>
 </table>
