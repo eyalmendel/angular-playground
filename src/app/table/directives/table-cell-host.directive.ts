@@ -5,6 +5,6 @@ import { Directive, ViewContainerRef } from "@angular/core";
 })
 export class TableCellHostDirective {
 
-    constructor(viewContainerRef: ViewContainerRef) {}
+    constructor(public viewContainerRef: ViewContainerRef) {}
 
 }

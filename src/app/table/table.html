@@ -1,6 +1,6 @@
 <cdk-table [dataSource]="data">
-  <ng-container *ngFor="let col of columns" [cdkColumnDef]="col.field">
-    <cdk-header-cell *cdkHeaderCellDef>{{ col.label }}</cdk-header-cell>
+  <ng-container *ngFor="let column of columns" [cdkColumnDef]="column.field">
+    <cdk-header-cell *cdkHeaderCellDef>{{ column.label }}</cdk-header-cell>
     <cdk-cell *cdkCellDef="let row">
       <ng-template appTableCellHost></ng-template>
     </cdk-cell>
