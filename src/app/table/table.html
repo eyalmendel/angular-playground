@@ -1,11 +1,5 @@
 <table>
-    <thead>
-        <tr>
-            @for (column of columns(); track column.field) {
-            <th>{{ column.label }}</th>
-            }
-        </tr>
-    </thead>
+    <app-table-header [columns]="columns()"></app-table-header>
     <tbody>
         <ng-container *appTableBody="let row of data(); columns: columns()">
             <tr>
