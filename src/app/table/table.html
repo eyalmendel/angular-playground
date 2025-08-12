@@ -1,28 +1,21 @@
 <table>
-  <thead>
-    <tr>
-        @for (column of columns(); track column.field) {
-            <th>{{ column.label }}</th>
-        }
-    </tr>
-  </thead>
-  <tbody>
-    @for (row of data(); track $index) {
+    <thead>
         <tr>
             @for (column of columns(); track column.field) {
-                <td>
-                    <ng-container
-                        appTableCellHost
-                        [row]="row"
-                        [column]="column">
-                    </ng-container>
-                </td>
+            <th>{{ column.label }}</th>
             }
         </tr>
-    }
-
-    @empty {
-        <span>No data to display</span>
-    }
-  </tbody>
+    </thead>
+    <tbody>
+        <ng-container *appTableBody="let row of data(); columns: columns()">
+            <tr>
+                @for (column of columns(); track column.field) {
+                <td>
+                    <ng-container appTableCellHost [row]="row" [column]="column">
+                    </ng-container>
+                </td>
+                }
+            </tr>
+        </ng-container>
+    </tbody>
 </table>
