@@ -1,7 +1,7 @@
 <table>
     <app-table-header [columns]="columns()"></app-table-header>
     <tbody>
-        <ng-container *appTableBody="let row of data(); columns: columns()">
+        <ng-container *appTableBody="let row of sortedData(); columns: columns()">
             <tr (click)="tableSelectionService.toggleRowSelection(row)">
                 @if (tableSelectionService.selectable) {
                     <td>

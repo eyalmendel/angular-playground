@@ -1,18 +1,40 @@
 import { CdkTableModule } from '@angular/cdk/table';
 import { CommonModule } from '@angular/common';
-import { Component, effect, input } from '@angular/core';
+import { Component, computed, effect, input, signal } from '@angular/core';
 import { TableBodyDirective } from './directives/table-body';
 import { TableCellHostDirective } from './directives/table-cell-host';
-import { TableColumn } from './interfaces/table-column';
+import { ColumnComparator, ComparableTableColumnType, TableColumn } from './interfaces/table-column';
 import { TableHeader } from './table-header/table-header';
 import { TableSelectionService } from './services/table-selection';
+
+type SortDirection = 'asc' | 'desc' | null;
+
+type SortState = {
+    column: string | null;
+    direction: SortDirection;
+}
+
+const DEFAULT_COLUMNS_COMPARATORS: Record<ComparableTableColumnType, ColumnComparator> = {
+    'text': (a: string, b: string) => a.localeCompare(b),
+    'number': (a: number, b: number) => a - b,
+}
+
+function setDefaultComparators(columns: TableColumn[]): TableColumn[] {
+    columns.forEach(column => {
+        if (column.comparator == undefined) {
+            column.comparator = DEFAULT_COLUMNS_COMPARATORS[column.type as ComparableTableColumnType];
+        }
+    })
+
+    return columns;
+}
 
 @Component({
     selector: 'app-table',
     imports: [
-        CommonModule, 
-        CdkTableModule, 
-        TableBodyDirective, 
+        CommonModule,
+        CdkTableModule,
+        TableBodyDirective,
         TableCellHostDirective,
         TableHeader,
     ],
@@ -24,17 +46,56 @@ export class Table {
 
     data = input.required<Object[]>();
 
-    columns = input.required<TableColumn[]>();
+    columns = input.required<TableColumn[], TableColumn[]>({ transform: setDefaultComparators });
 
     displayedColumns = input.required<string[]>();
 
     selectable = input<boolean>(true);
+
+
+    sortState = signal<SortState>({ column: null, direction: null });
+
+    sortedData = computed(() => {
+        const data = [...this.data()];
+        const sortState = this.sortState();
+        if (!sortState.column || !sortState.direction) {
+            return data;
+        }
+
+        const direction = sortState.direction === 'asc' ? 1 : -1;
+        const sortableColumn = this.columns()
+            .find(column => column.field === sortState.column)
+            ?? null;
+
+        if (sortableColumn == null) {
+            return data;
+        }
+
+        return data.sort((item, otherItem) =>
+            sortableColumn.comparator!(item, otherItem) * direction
+        );
+    });
 
     constructor(public tableSelectionService: TableSelectionService) {
         effect(() => {
             this.tableSelectionService.setData(this.data());
             this.tableSelectionService.selectable = this.selectable();
         })
+    }
+
+    setSort(column: string): void {
+        const currentSort = this.sortState();
+        let newDirection: SortDirection = 'asc';
+
+        if (currentSort.column === column) {
+            if (currentSort.direction === 'asc') {
+                newDirection = 'desc';
+            } else if (currentSort.direction === 'desc') {
+                newDirection = null;
+            }
+        }
+
+        this.sortState.set({ column, direction: newDirection });
     }
 
 }
