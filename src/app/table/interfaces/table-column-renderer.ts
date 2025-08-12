@@ -1,4 +1,4 @@
-import { TableColumn } from "./table-column.interface";
+import { TableColumn } from "./table-column";
 
 export interface TableColumnRenderer {
 

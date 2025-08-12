@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { Button } from './button/button';
 import { Table } from './table/table';
-import { TableColumn } from './table/interfaces/table-column.interface';
+import { TableColumn } from './table/interfaces/table-column';
 
 type User = {
   name: string;

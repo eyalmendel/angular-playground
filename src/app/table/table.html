@@ -2,14 +2,29 @@
     <app-table-header [columns]="columns()"></app-table-header>
     <tbody>
         <ng-container *appTableBody="let row of data(); columns: columns()">
-            <tr>
+            <tr (click)="tableSelectionService.toggleRowSelection(row)">
+                @if (tableSelectionService.selectable) {
+                    <td>
+                        <input  
+                            type="checkbox" 
+                            [checked]="tableSelectionService.isRowSelected(row)"
+                            >
+                    </td>
+                }
                 @for (column of columns(); track column.field) {
-                <td>
-                    <ng-container appTableCellHost [row]="row" [column]="column">
-                    </ng-container>
-                </td>
+                    <td>
+                        <ng-container 
+                            appTableCellHost 
+                            [row]="row" 
+                            [column]="column">
+                        </ng-container>
+                    </td>
                 }
             </tr>
         </ng-container>
     </tbody>
 </table>
+
+@if (selectable()) {
+    <span class="selected-count">Selected: {{ tableSelectionService.selectedCount() }}</span>
+}

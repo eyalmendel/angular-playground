@@ -5,7 +5,7 @@ import {
     ViewContainerRef,
     input
 } from '@angular/core';
-import { TableColumn } from '../interfaces/table-column.interface';
+import { TableColumn } from '../interfaces/table-column';
 
 interface TableBodyContext<T> {
   $implicit: T;

@@ -1,6 +1,6 @@
 import { Directive, input, OnInit, ViewContainerRef } from "@angular/core";
-import { TableColumn } from "../interfaces/table-column.interface";
-import { TableColumnRendererRegistryService } from "../services/table-column-renderer-registry.service";
+import { TableColumn } from "../interfaces/table-column";
+import { TableColumnRendererRegistry } from "../services/table-column-renderer-registry";
 
 @Directive({
     selector: '[appTableCellHost]'
@@ -12,7 +12,7 @@ export class TableCellHostDirective implements OnInit {
     row = input<Object | null>(null);
 
     constructor(
-        private _registry: TableColumnRendererRegistryService,
+        private _registry: TableColumnRendererRegistry,
         private _viewContainerRef: ViewContainerRef,
     ) {
     

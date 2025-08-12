@@ -1,12 +1,12 @@
 import { Injectable, Type } from "@angular/core";
-import { TableColumnType } from "../interfaces/table-column.interface";
-import { TableColumnRenderer } from "../interfaces/table-column-renderer.interface";
+import { TableColumnType } from "../interfaces/table-column";
+import { TableColumnRenderer } from "../interfaces/table-column-renderer";
 import { TextRenderer } from "../renderers/text-renderer/text-renderer";
 
 @Injectable({
     providedIn: 'root'
 })
-export class TableColumnRendererRegistryService {
+export class TableColumnRendererRegistry {
 
     private _renderers = new Map<TableColumnType, Type<TableColumnRenderer>>([
         ['text', TextRenderer],
