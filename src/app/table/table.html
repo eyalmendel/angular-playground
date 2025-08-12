@@ -1,5 +1,23 @@
 <table>
-    <app-table-header [columns]="columns()"></app-table-header>
+    <thead>
+        <tr>
+             @if (tableSelectionService.selectable) {
+                <th>
+                    <input 
+                        type="checkbox" 
+                        [checked]="tableSelectionService.isAllRowsSelected()"
+                        [indeterminate]="tableSelectionService.isIndeterminate()" 
+                        (click)="tableSelectionService.toggleAllRowsSelection()">
+                </th>
+            }
+            @for (column of columns(); track column.field) {
+                <th 
+                    (click)="column.sortable && setSortState(column.field)">
+                    {{ column.label }}
+                </th>
+            }
+        </tr>
+    </thead>
     <tbody>
         <ng-container *appTableBody="let row of sortedData(); columns: columns()">
             <tr (click)="tableSelectionService.toggleRowSelection(row)">
@@ -7,8 +25,7 @@
                     <td>
                         <input  
                             type="checkbox" 
-                            [checked]="tableSelectionService.isRowSelected(row)"
-                            >
+                            [checked]="tableSelectionService.isRowSelected(row)">
                     </td>
                 }
                 @for (column of columns(); track column.field) {

@@ -18,7 +18,7 @@ type User = {
 export class App {
   
   columns: TableColumn[] = [
-    { type: 'text', label: 'Name', field: 'name' },
+    { type: 'text', label: 'Name', field: 'name', sortable: true },
     { type: 'text', label: 'Status', field: 'status' },
     { type: 'text', label: 'Phone', field: 'phone' },
   ];

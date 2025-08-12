@@ -4,7 +4,6 @@ import { Component, computed, effect, input, signal } from '@angular/core';
 import { TableBodyDirective } from './directives/table-body';
 import { TableCellHostDirective } from './directives/table-cell-host';
 import { ColumnComparator, ComparableTableColumnType, TableColumn } from './interfaces/table-column';
-import { TableHeader } from './table-header/table-header';
 import { TableSelectionService } from './services/table-selection';
 
 type SortDirection = 'asc' | 'desc' | null;
@@ -36,7 +35,6 @@ function setDefaultComparators(columns: TableColumn[]): TableColumn[] {
         CdkTableModule,
         TableBodyDirective,
         TableCellHostDirective,
-        TableHeader,
     ],
     providers: [TableSelectionService],
     templateUrl: './table.html',
@@ -57,23 +55,25 @@ export class Table {
 
     sortedData = computed(() => {
         const data = [...this.data()];
-        const sortState = this.sortState();
-        if (!sortState.column || !sortState.direction) {
+        const { column: sortedColumn, direction: sortedDirection } = this.sortState();
+        if (sortedColumn == null || sortedDirection == null) {
             return data;
         }
 
-        const direction = sortState.direction === 'asc' ? 1 : -1;
+        const direction = sortedDirection === 'asc' ? 1 : -1;
         const sortableColumn = this.columns()
-            .find(column => column.field === sortState.column)
+            .find(column => column.field === sortedColumn)
             ?? null;
 
         if (sortableColumn == null) {
             return data;
         }
 
-        return data.sort((item, otherItem) =>
-            sortableColumn.comparator!(item, otherItem) * direction
-        );
+        return data.sort((item, otherItem): number => {
+            const itemValue = item[sortedColumn as keyof Object];
+            const otherItemValue = otherItem[sortedColumn as keyof Object];
+            return sortableColumn.comparator!(itemValue, otherItemValue) * direction;
+        });
     });
 
     constructor(public tableSelectionService: TableSelectionService) {
@@ -83,7 +83,7 @@ export class Table {
         })
     }
 
-    setSort(column: string): void {
+    setSortState(column: string): void {
         const currentSort = this.sortState();
         let newDirection: SortDirection = 'asc';
 
