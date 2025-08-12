@@ -1,9 +1,9 @@
 import {
-    Directive,
-    OnInit,
-    TemplateRef,
-    ViewContainerRef,
-    input
+  Directive,
+  TemplateRef,
+  ViewContainerRef,
+  effect,
+  input
 } from '@angular/core';
 import { TableColumn } from '../interfaces/table-column';
 
@@ -15,7 +15,7 @@ interface TableBodyContext<T> {
 @Directive({
   selector: '[appTableBody]'
 })
-export class TableBodyDirective<T> implements OnInit {
+export class TableBodyDirective<T> {
 
   data = input<T[]>([], {alias: 'appTableBodyOf' });
   columns = input<TableColumn[]>([], { alias: 'appTableBodyColumns' })
@@ -23,10 +23,10 @@ export class TableBodyDirective<T> implements OnInit {
   constructor(
     private templateRef: TemplateRef<TableBodyContext<T>>,
     private viewContainerRef: ViewContainerRef
-  ) {}
-
-  ngOnInit() {
-    this._updateView();
+  ) {
+    effect(() => {
+      this._updateView();
+    })
   }
 
   private _updateView(): void {

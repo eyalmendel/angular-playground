@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, signal, WritableSignal } from '@angular/core';
 import { Button } from './button/button';
 import { Table } from './table/table';
 import { TableColumn } from './table/interfaces/table-column';
@@ -23,12 +23,16 @@ export class App {
     { type: 'text', label: 'Phone', field: 'phone' },
   ];
 
-  data: User[] = [
+  data: WritableSignal<User[]> = signal([
     { name: 'Eyal Mendel', status: 'online', phone: '054542648' },
     { name: 'Guy Mendel', status: 'offline', phone: '053526179' },
     { name: 'Noga Mendel', status: 'inactive', phone: '054588848' },
-  ];
+  ]);
 
   displayedColumns = ['name', 'status', 'phone'];
+
+  addNewData() {
+    this.data.update(prev => [...prev, { name: 'Eyal Mendel', status: 'online', phone: '054542648' }])
+  }
 
 }

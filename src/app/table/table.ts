@@ -1,6 +1,6 @@
 import { CdkTableModule } from '@angular/cdk/table';
 import { CommonModule } from '@angular/common';
-import { Component, input } from '@angular/core';
+import { Component, effect, input } from '@angular/core';
 import { TableBodyDirective } from './directives/table-body';
 import { TableCellHostDirective } from './directives/table-cell-host';
 import { TableColumn } from './interfaces/table-column';
@@ -22,20 +22,19 @@ import { TableSelectionService } from './services/table-selection';
 })
 export class Table {
 
-    data = input<Object[]>([]);
+    data = input.required<Object[]>();
 
-    columns = input<TableColumn[]>([]);
+    columns = input.required<TableColumn[]>();
 
-    displayedColumns = input<string[]>([]);
+    displayedColumns = input.required<string[]>();
 
     selectable = input<boolean>(true);
 
     constructor(public tableSelectionService: TableSelectionService) {
-
+        effect(() => {
+            this.tableSelectionService.setData(this.data());
+            this.tableSelectionService.selectable = this.selectable();
+        })
     }
 
-    ngOnInit(): void {
-        this.tableSelectionService.selectable = this.selectable();
-        this.tableSelectionService.setData(this.data());
-    }
 }
