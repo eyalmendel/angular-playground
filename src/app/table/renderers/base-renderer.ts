@@ -1,5 +1,5 @@
-import { TableColumnRenderer } from '../interfaces/table-column-renderer';
-import { TableColumnConfig } from '../types';
+import { TableColumnRenderer } from '../core/table-column-renderer';
+import { TableColumnConfig } from '../core/types';
 
 export class BaseRenderer<T> implements TableColumnRenderer<T> {
 

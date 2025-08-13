@@ -1,6 +1,6 @@
 import { Injectable, Type } from "@angular/core";
-import { TableColumnType } from "../types";
-import { TableColumnRenderer } from "../interfaces/table-column-renderer";
+import { TableColumnType } from "./types";
+import { TableColumnRenderer } from "./table-column-renderer";
 import { TextRenderer } from "../renderers/text-renderer/text-renderer";
 import { ButtonRenderer } from "../renderers/button-renderer/button-renderer";
 import { IconRenderer } from "../renderers/icon-renderer/icon-renderer";

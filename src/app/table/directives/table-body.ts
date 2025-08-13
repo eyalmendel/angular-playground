@@ -5,7 +5,7 @@ import {
   effect,
   input
 } from '@angular/core';
-import { TableColumnConfig } from '../types';
+import { TableColumnConfig } from '../core/types';
 
 interface TableBodyContext<T> {
   $implicit: T;

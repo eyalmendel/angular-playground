@@ -1,6 +1,6 @@
 import { Directive, input, OnInit, TemplateRef, ViewContainerRef } from "@angular/core";
-import { TableColumnRendererRegistry } from "../services/table-column-renderer-registry";
-import { TableColumnConfig } from "../types";
+import { TableColumnRendererRegistry } from "../core/table-column-renderer-registry";
+import { TableColumnConfig } from "../core/types";
 
 @Directive({
     selector: '[appTableCellHost]'

@@ -1,4 +1,4 @@
-import { TableColumnConfig } from "../types";
+import { TableColumnConfig } from "./types";
 
 export interface TableColumnRenderer<T> {
 

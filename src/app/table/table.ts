@@ -3,8 +3,8 @@ import { CommonModule } from '@angular/common';
 import { Component, computed, effect, input, signal } from '@angular/core';
 import { TableBodyDirective } from './directives/table-body';
 import { TableCellHostDirective } from './directives/table-cell-host';
-import { ColumnComparator, ComparableTableColumnType, TableColumnConfig } from './types';
-import { TableSelectionService } from './services/table-selection';
+import { ColumnComparator, ComparableTableColumnType, TableColumnConfig } from './core/types';
+import { TableSelectionService } from './core/table-selection';
 
 type SortDirection = 'asc' | 'desc' | null;
 

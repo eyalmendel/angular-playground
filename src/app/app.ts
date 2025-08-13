@@ -1,6 +1,6 @@
 import { Component, signal, WritableSignal } from '@angular/core';
 import { Table } from './table/table';
-import { TableColumnConfig } from './table/types';
+import { TableColumnConfig } from './table/core/types';
 
 interface User {
   name: string;

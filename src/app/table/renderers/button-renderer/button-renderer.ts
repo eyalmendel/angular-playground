@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { BaseRenderer } from '../base-renderer';
 import { Button } from '../../../button/button';
-import { ButtonColumnConfig, ButtonRendererConfig } from '../../types';
+import { ButtonColumnConfig, ButtonRendererConfig } from '../../core/types';
 
 @Component({
   selector: 'app-button-renderer',

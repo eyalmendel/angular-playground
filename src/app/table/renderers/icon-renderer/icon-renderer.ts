@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { BaseRenderer } from '../base-renderer';
-import { IconColumnConfig, IconRendererConfig } from '../../types';
+import { IconColumnConfig, IconRendererConfig } from '../../core/types';
 
 @Component({
   selector: 'app-icon-renderer',
