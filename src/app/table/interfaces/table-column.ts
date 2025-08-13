@@ -1,9 +1,15 @@
+import { TemplateRef } from "@angular/core";
 
-export type TableColumnType = 'text' | 'number' | 'button';
+export type TableColumnType = 'text' | 'button' | 'badge';
 
-export type ComparableTableColumnType = 'text' | 'number';
+export type ComparableTableColumnType = Extract<TableColumnType, 'text'>;
 
 export type ColumnComparator = (a: any, b: any) => number;
+
+export type TableColumnTemplateContext = {
+    row: Object;
+    column: TableColumn;
+}
 
 export interface TableColumn {
     type: TableColumnType;
@@ -11,4 +17,5 @@ export interface TableColumn {
     label: string;
     sortable?: boolean;
     comparator?: ColumnComparator;
+    template?: TemplateRef<TableColumnTemplateContext>;
 }

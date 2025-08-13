@@ -15,7 +15,6 @@ type SortState = {
 
 const DEFAULT_COLUMNS_COMPARATORS: Record<ComparableTableColumnType, ColumnComparator> = {
     'text': (a: string, b: string) => a.localeCompare(b),
-    'number': (a: number, b: number) => a - b,
 }
 
 function setDefaultComparators(columns: TableColumn[]): TableColumn[] {

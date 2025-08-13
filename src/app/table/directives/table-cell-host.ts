@@ -1,5 +1,5 @@
-import { Directive, input, OnInit, ViewContainerRef } from "@angular/core";
-import { TableColumn } from "../interfaces/table-column";
+import { Directive, input, OnInit, TemplateRef, ViewContainerRef } from "@angular/core";
+import { TableColumn, TableColumnTemplateContext } from "../interfaces/table-column";
 import { TableColumnRendererRegistry } from "../services/table-column-renderer-registry";
 
 @Directive({
@@ -28,6 +28,15 @@ export class TableCellHostDirective implements OnInit {
         }
     
         this._viewContainerRef.clear();
+
+        if (this.column()?.template) {
+          this._viewContainerRef.createEmbeddedView(
+            this.column()!.template as TemplateRef<TableColumnTemplateContext>,
+            this.row()
+          );
+          
+          return;
+        }
 
         const rendererType = this._registry.getRenderer(this.column()!.type);
   
