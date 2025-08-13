@@ -1,7 +1,7 @@
-import { TableColumn } from "./table-column";
+import { TableColumnConfig } from "../types";
 
-export interface TableColumnRenderer {
+export interface TableColumnRenderer<T> {
 
-    render(value: unknown, row: Object, column: TableColumn): void;
+    render(value: unknown, row: T, column: TableColumnConfig<T>): void;
 
 }

@@ -7,7 +7,7 @@ import { BaseRenderer } from '../base-renderer';
   templateUrl: './text-renderer.html',
   styleUrl: './text-renderer.css'
 })
-export class TextRenderer extends BaseRenderer {
+export class TextRenderer<T> extends BaseRenderer<T> {
 
     constructor() {
         super();

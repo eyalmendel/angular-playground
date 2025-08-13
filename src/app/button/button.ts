@@ -9,18 +9,22 @@ import { ChangeDetectionStrategy, Component, input, output } from '@angular/core
 })
 export class Button {
 
-    text = input<string | null>(null);
+  text = input<string | null>(null);
 
-    textColor = input<string>('var(--secondary-color)');
+  textColor = input<string>('var(--secondary-color)');
 
-    color = input<string>('var(--primary-color)');
+  iconUrl = input<string | null>(null);
 
-    width = input<number>(100);
-    
-    height = input<number>(25);
+  //iconPosition = input<ButtonIconPosition>('start');
 
-    borderRadius = input<string>('var(--default-border-radius)')
+  color = input<string>('var(--primary-color)');
 
-    click = output<void>();
+  width = input<number>(100);
+
+  height = input<number>(25);
+
+  borderRadius = input<string>('var(--default-border-radius)');
+
+  click = output<MouseEvent>();
 
 }

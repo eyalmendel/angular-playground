@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { Component, computed, effect, input, signal } from '@angular/core';
 import { TableBodyDirective } from './directives/table-body';
 import { TableCellHostDirective } from './directives/table-cell-host';
-import { ColumnComparator, ComparableTableColumnType, TableColumn } from './interfaces/table-column';
+import { ColumnComparator, ComparableTableColumnType, TableColumnConfig } from './types';
 import { TableSelectionService } from './services/table-selection';
 
 type SortDirection = 'asc' | 'desc' | null;
@@ -17,7 +17,7 @@ const DEFAULT_COLUMNS_COMPARATORS: Record<ComparableTableColumnType, ColumnCompa
     'text': (a: string, b: string) => a.localeCompare(b),
 }
 
-function setDefaultComparators(columns: TableColumn[]): TableColumn[] {
+function setDefaultComparators<T>(columns: TableColumnConfig<T>[]): TableColumnConfig<T>[] {
     columns.forEach(column => {
         if (column.comparator == undefined) {
             column.comparator = DEFAULT_COLUMNS_COMPARATORS[column.type as ComparableTableColumnType];
@@ -39,11 +39,11 @@ function setDefaultComparators(columns: TableColumn[]): TableColumn[] {
     templateUrl: './table.html',
     styleUrl: './table.css'
 })
-export class Table {
+export class Table<T> {
 
-    data = input.required<Object[]>();
+    data = input.required<T[]>();
 
-    columns = input.required<TableColumn[], TableColumn[]>({ transform: setDefaultComparators });
+    columns = input.required<TableColumnConfig<T>[], TableColumnConfig<T>[]>({ transform: setDefaultComparators });
 
     displayedColumns = input.required<string[]>();
 
@@ -69,13 +69,13 @@ export class Table {
         }
 
         return data.sort((item, otherItem): number => {
-            const itemValue = item[sortedColumn as keyof Object];
-            const otherItemValue = otherItem[sortedColumn as keyof Object];
+            const itemValue = item[sortedColumn as keyof T];
+            const otherItemValue = otherItem[sortedColumn as keyof T];
             return sortableColumn.comparator!(itemValue, otherItemValue) * direction;
         });
     });
 
-    constructor(public tableSelectionService: TableSelectionService) {
+    constructor(public tableSelectionService: TableSelectionService<T>) {
         effect(() => {
             this.tableSelectionService.setData(this.data());
             this.tableSelectionService.selectable = this.selectable();

@@ -5,11 +5,11 @@ import {
   effect,
   input
 } from '@angular/core';
-import { TableColumn } from '../interfaces/table-column';
+import { TableColumnConfig } from '../types';
 
 interface TableBodyContext<T> {
   $implicit: T;
-  columns: TableColumn[];
+  columns: TableColumnConfig<T>[];
 }
 
 @Directive({
@@ -18,7 +18,7 @@ interface TableBodyContext<T> {
 export class TableBodyDirective<T> {
 
   data = input<T[]>([], {alias: 'appTableBodyOf' });
-  columns = input<TableColumn[]>([], { alias: 'appTableBodyColumns' })
+  columns = input<TableColumnConfig<T>[]>([], { alias: 'appTableBodyColumns' })
 
   constructor(
     private templateRef: TemplateRef<TableBodyContext<T>>,

@@ -1,24 +1,24 @@
 import { computed, Injectable, Signal, signal, WritableSignal } from '@angular/core';
 
 @Injectable()
-export class TableSelectionService {
-    private _data: Object[] = [];
+export class TableSelectionService<T> {
+    private _data: T[] = [];
     
     selectable = false;
     
-    readonly selected: WritableSignal<Set<Object>> = signal(new Set<Object>());
+    readonly selected: WritableSignal<Set<T>> = signal(new Set<T>());
     readonly selectedCount: Signal<number> = computed(() => this.selected().size)
 
-    setData(data: Object[]): void {
+    setData(data: T[]): void {
         this._data = data;
         this.selected.update(() => new Set())
     }
 
-    isRowSelected(row: Object): boolean {
+    isRowSelected(row: T): boolean {
         return this.selected().has(row);
     }
 
-    toggleRowSelection(row: Object): void {
+    toggleRowSelection(row: T): void {
         if (this.selected().has(row)) {
             this.selected.update(previouslySelected => {
                 const copy = new Set(previouslySelected);

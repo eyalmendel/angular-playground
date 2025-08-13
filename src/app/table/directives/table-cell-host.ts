@@ -1,18 +1,18 @@
 import { Directive, input, OnInit, TemplateRef, ViewContainerRef } from "@angular/core";
-import { TableColumn, TableColumnTemplateContext } from "../interfaces/table-column";
 import { TableColumnRendererRegistry } from "../services/table-column-renderer-registry";
+import { TableColumnConfig } from "../types";
 
 @Directive({
     selector: '[appTableCellHost]'
 })
-export class TableCellHostDirective implements OnInit {
+export class TableCellHostDirective<T> implements OnInit {
 
-    column = input<TableColumn | null>(null);
+    column = input<TableColumnConfig<T> | null>(null);
 
-    row = input<Object | null>(null);
+    row = input<T | null>(null);
 
     constructor(
-        private _registry: TableColumnRendererRegistry,
+        private _registry: TableColumnRendererRegistry<T>,
         private _viewContainerRef: ViewContainerRef,
     ) {
     
@@ -31,7 +31,7 @@ export class TableCellHostDirective implements OnInit {
 
         if (this.column()?.template) {
           this._viewContainerRef.createEmbeddedView(
-            this.column()!.template as TemplateRef<TableColumnTemplateContext>,
+            this.column()!.template as TemplateRef<any>,
             this.row()
           );
           
@@ -40,12 +40,12 @@ export class TableCellHostDirective implements OnInit {
 
         const rendererType = this._registry.getRenderer(this.column()!.type);
   
-        if (!rendererType) {
+        if (rendererType == null) {
           return;
         }
   
         const rendererRef = this._viewContainerRef.createComponent(rendererType);
-        const fieldValue = this.row()![this.column()!.field as keyof Object];
+        const fieldValue = this.row()![this.column()!.field as keyof T];
         rendererRef.instance.render(fieldValue, this.row()!, this.column()!);
       }
 

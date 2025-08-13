@@ -1,9 +1,8 @@
 import { Component, signal, WritableSignal } from '@angular/core';
-import { Button } from './button/button';
 import { Table } from './table/table';
-import { TableColumn } from './table/interfaces/table-column';
+import { TableColumnConfig } from './table/types';
 
-type User = {
+interface User {
   name: string;
   status: 'online' | 'offline' | 'inactive',
   phone: string;
@@ -17,16 +16,20 @@ type User = {
 })
 export class App {
   
-  columns: TableColumn[] = [
+  columns: TableColumnConfig<User>[] = [
     { type: 'text', label: 'Name', field: 'name', sortable: true },
     { type: 'text', label: 'Status', field: 'status' },
     { type: 'text', label: 'Phone', field: 'phone' },
+    { type: 'button', label: 'Action', field: 'action', rendererConfig: {
+      text: 'click me',
+      action: (row: User) => console.log(`Action done by: ${row.name}`)
+    }}
   ];
 
   data: WritableSignal<User[]> = signal([
-    { name: 'Eyal Mendel', status: 'online', phone: '054542648' },
-    { name: 'Guy Mendel', status: 'offline', phone: '053526179' },
-    { name: 'Noga Mendel', status: 'inactive', phone: '054588848' },
+    { name: 'Eyal Mendel', status: 'online', phone: '054542648',},
+    { name: 'Guy Mendel', status: 'offline', phone: '053526179',},
+    { name: 'Noga Mendel', status: 'inactive', phone: '054588848', },
   ]);
 
   displayedColumns = ['name', 'status', 'phone'];
