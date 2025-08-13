@@ -1,6 +1,6 @@
 import { TemplateRef } from "@angular/core";
 
-export type TableColumnType = 'text' | 'button' | 'badge';
+export type TableColumnType = 'text' | 'button' | 'badge' | 'icon';
 
 export type ComparableTableColumnType = Extract<TableColumnType, 'text'>;
 
@@ -17,7 +17,13 @@ export type ButtonRendererConfig<T> = {
     iconUrl?: string;
 }
 
+export type IconRendererConfig<T> = {
+    getUrl: (row: T) => string;
+    getAltText: (row: T) => string;
+}
+
 export interface BaseTableColumnConfig<T> {
+    type: TableColumnType
     field: string;
     label: string;
     sortable?: boolean;
@@ -34,4 +40,12 @@ export interface ButtonColumnConfig<T> extends BaseTableColumnConfig<T> {
     rendererConfig: ButtonRendererConfig<T>;
 }
 
-export type TableColumnConfig<T> = TextColumnConfig<T> | ButtonColumnConfig<T>;
+export interface IconColumnConfig<T> extends BaseTableColumnConfig<T> {
+    type: 'icon';
+    rendererConfig: IconRendererConfig<T>;
+}
+
+export type TableColumnConfig<T> = 
+    TextColumnConfig<T> | 
+    ButtonColumnConfig<T> | 
+    IconColumnConfig<T>;

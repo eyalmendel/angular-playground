@@ -18,7 +18,10 @@ export class App {
   
   columns: TableColumnConfig<User>[] = [
     { type: 'text', label: 'Name', field: 'name', sortable: true },
-    { type: 'text', label: 'Status', field: 'status' },
+    { type: 'icon', label: 'Status', field: 'status', rendererConfig: {
+      getUrl: (row: User) => row.status === 'online' ? 'icons/online.svg' : 'icons/offline.svg',
+      getAltText: (row: User) => row.status.toLowerCase()
+    } },
     { type: 'text', label: 'Phone', field: 'phone' },
     { type: 'button', label: 'Action', field: 'action', rendererConfig: {
       text: 'click me',
