@@ -12,8 +12,18 @@
             }
             @for (column of columns(); track column.field) {
                 <th 
+                    [class.sortable]="column.sortable"
                     (click)="column.sortable && setSortState(column.field)">
                     {{ column.label }}
+                    @if (sortState().column === column.field) {
+                        <span>
+                            @if (sortState().direction === 'asc') {
+                                <span>&#9650;</span>
+                            } @else if (sortState().direction === 'desc') {
+                                <span>&#9660;</span>
+                            }
+                        </span>
+                    }
                 </th>
             }
         </tr>
