@@ -1,31 +1,12 @@
 import { CdkTableModule } from '@angular/cdk/table';
 import { CommonModule } from '@angular/common';
 import { Component, computed, effect, input, signal } from '@angular/core';
+
+import { TableSelectionService } from './core/table-selection';
+import { SortDirection, SortState, TableColumnConfig } from './core/types';
+import { setDefaultComparators } from './core/utils';
 import { TableBodyDirective } from './directives/table-body';
 import { TableCellHostDirective } from './directives/table-cell-host';
-import { ColumnComparator, ComparableTableColumnType, TableColumnConfig } from './core/types';
-import { TableSelectionService } from './core/table-selection';
-
-type SortDirection = 'asc' | 'desc' | null;
-
-type SortState = {
-    column: string | null;
-    direction: SortDirection;
-}
-
-const DEFAULT_COLUMNS_COMPARATORS: Record<ComparableTableColumnType, ColumnComparator> = {
-    'text': (a: string, b: string) => a.localeCompare(b),
-}
-
-function setDefaultComparators<T>(columns: TableColumnConfig<T>[]): TableColumnConfig<T>[] {
-    columns.forEach(column => {
-        if (column.comparator == undefined) {
-            column.comparator = DEFAULT_COLUMNS_COMPARATORS[column.type as ComparableTableColumnType];
-        }
-    })
-
-    return columns;
-}
 
 @Component({
     selector: 'app-table',
@@ -43,12 +24,11 @@ export class Table<T> {
 
     data = input.required<T[]>();
 
-    columns = input.required<TableColumnConfig<T>[], TableColumnConfig<T>[]>({ transform: setDefaultComparators });
-
-    displayedColumns = input.required<string[]>();
+    columns = input.required<TableColumnConfig<T>[], TableColumnConfig<T>[]>({ 
+        transform: setDefaultComparators
+    });
 
     selectable = input<boolean>(true);
-
 
     sortState = signal<SortState>({ column: null, direction: null });
 

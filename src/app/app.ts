@@ -35,8 +35,6 @@ export class App {
     { name: 'Noga Mendel', status: 'inactive', phone: '054588848', },
   ]);
 
-  displayedColumns = ['name', 'status', 'phone'];
-
   addNewData() {
     this.data.update(prev => [...prev, { name: 'Eyal Mendel', status: 'online', phone: '054542648' }])
   }

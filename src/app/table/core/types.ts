@@ -2,9 +2,14 @@ import { TemplateRef } from "@angular/core";
 
 export type TableColumnType = 'text' | 'button' | 'badge' | 'icon';
 
-export type ComparableTableColumnType = Extract<TableColumnType, 'text'>;
-
 export type ColumnComparator = (a: any, b: any) => number;
+
+export type SortDirection = 'asc' | 'desc' | null;
+
+export type SortState = {
+    column: string | null;
+    direction: SortDirection;
+}
 
 export type TableColumnTemplateContext<T> = {
     row: T;
