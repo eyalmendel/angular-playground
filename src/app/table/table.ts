@@ -59,7 +59,7 @@ export class Table<T> {
         effect(() => {
             this.tableSelectionService.setData(this.data());
             this.tableSelectionService.selectable = this.selectable();
-        })
+        });
     }
 
     setSortState(column: string): void {
